@@ -29,7 +29,7 @@
 //                   style: ButtonStyle(
 //                   backgroundColor: WidgetStatePropertyAll(colorManager.textColor),
 //                   foregroundColor: WidgetStatePropertyAll(colorManager.whiteColor),
-                   
+
 //                     shape: WidgetStatePropertyAll(
 //                       RoundedRectangleBorder(
 //                         borderRadius: BorderRadius.circular(
@@ -44,7 +44,7 @@
 //                   child: Text("Change Theme"),
 //                 ),
 //                 SizedBox(
-                 
+
 //                   child: Align(
 //                     alignment: Alignment.center,
 //                     child: Container(
@@ -72,6 +72,9 @@
 import 'package:dsx_app/bloc/shuffle/shuffle_bloc.dart';
 import 'package:dsx_app/bloc/shuffle/shuffle_event.dart';
 import 'package:dsx_app/bloc/shuffle/shuffle_state.dart';
+import 'package:dsx_app/bloc/theme/theme_bloc.dart';
+import 'package:dsx_app/bloc/theme/theme_event.dart';
+import 'package:dsx_app/bloc/theme/theme_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -80,9 +83,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final diceBloc = context.read<ShuffleBloc> ();
+    final diceBloc = context.read<ShuffleBloc>();
     return Scaffold(
-      body: BlocBuilder<ShuffleBloc,ShuffleState>(
+      body: BlocBuilder<ShuffleBloc, ShuffleState>(
         builder: (context, state) {
           return Center(
             child: Column(
@@ -91,11 +94,16 @@ class HomeScreen extends StatelessWidget {
               children: [
                 AnimatedSwitcher(
                   duration: Duration(milliseconds: 200),
-                  transitionBuilder: (child, anim) => ScaleTransition(scale: anim, child: child),
+                  transitionBuilder:
+                      (child, anim) =>
+                          ScaleTransition(scale: anim, child: child),
                   child: Text(
                     '${state.currentNumber}',
                     key: ValueKey(state.currentNumber),
-                    style: TextStyle(fontSize: 100, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 100,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 SizedBox(height: 20),
@@ -113,22 +121,43 @@ class HomeScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 20, color: Colors.blueAccent),
                 ),
                 SizedBox(height: 50),
-                state.status.isEmpty?
-                ElevatedButton(
-                  onPressed: state.isShuffling
-            ? null
-            : () {
-                context.read<ShuffleBloc>().add(StartShuffling());
-              },
-                  child: Text(state.isShuffling ? "Shuffling..." : "Shuffle Dice"),
-                ):
-                ElevatedButton(onPressed: (){
-            context.read<ShuffleBloc>().add(ResetShuffle());
-;                }, child: Text('Try Again'))
-              ]),
+                state.status.isEmpty
+                    ? ElevatedButton(
+                      onPressed:
+                          state.isShuffling
+                              ? null
+                              : () {
+                                context.read<ShuffleBloc>().add(
+                                  StartShuffling(),
+                                );
+                              },
+                      child: Text(
+                        state.isShuffling ? "Shuffling..." : "Shuffle Dice",
+                      ),
+                    )
+                    : ElevatedButton(
+                      onPressed: () {
+                        context.read<ShuffleBloc>().add(ResetShuffle());
+                        ;
+                      },
+                      child: Text('Try Again'),
+                    ),
+                     BlocBuilder<ThemeBloc, ThemeState>(
+                       builder: (context, state) {
+                        final isDark = state is DarkMode;
+                         return ElevatedButton(
+                          onPressed: () {
+                            context.read<ThemeBloc>().add(ToggleTheme(isDark: !isDark));
+                            ;
+                          },
+                          child: Text('Switch Theme'),
+                                             );
+                       }
+                     ),
+              ],
+            ),
           );
-
-        }
+        },
       ),
     );
   }

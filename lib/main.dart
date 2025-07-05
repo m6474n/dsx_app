@@ -1,4 +1,6 @@
 import 'package:dsx_app/bloc/shuffle/shuffle_bloc.dart';
+import 'package:dsx_app/bloc/theme/theme_bloc.dart';
+import 'package:dsx_app/bloc/theme/theme_state.dart';
 import 'package:dsx_app/controller/theme/theme_controller.dart';
 import 'package:dsx_app/firebase_options.dart';
 import 'package:dsx_app/routes/app_routes.dart';
@@ -22,44 +24,55 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-// TextStyle _style = TextStyle(color: colorManager.textColor);
-
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_)=> ShuffleBloc()),
+        BlocProvider(create: (_) => ThemeBloc()),
+        BlocProvider(create: (_) => ShuffleBloc()),
       ],
-    
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Deversol Official App',
-        theme: ThemeData(
-          // scaffoldBackgroundColor: colorManager.bgColor,
-          // textTheme: TextTheme(
-          //   displayLarge: _style,
-          //   displayMedium: _style,
-          //   displaySmall: _style,
-          //   headlineLarge: _style,
-          //   headlineMedium: _style,
-          //   headlineSmall: _style,
-          //   titleLarge: _style,
-          //   titleMedium: _style,
-          //   titleSmall: _style,
-          //   bodyLarge: _style,
-          //   bodyMedium: _style,
-          //   bodySmall: _style,
-          //   labelLarge: _style,
-          //   labelMedium: _style,
-          //   labelSmall: _style,
-          // ),
-          fontFamily: 'Aeronik',
-          // colorScheme: ColorScheme.fromSeed(seedColor: colorManager.primaryColor),
-        ),
-        // initialRoute: AppRoutes.home,
-        // getPages: AppRoutes.routes,
-      home: HomeScreen(),
+
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, state) {
+          TextStyle _style = TextStyle(color: state.textColor);
+
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Deversol Official App',
+            themeMode: state is DarkMode ? ThemeMode.dark : ThemeMode.light,
+
+            theme: ThemeData(
+              scaffoldBackgroundColor: state.bgColor,
+              textTheme: TextTheme(
+                displayLarge: _style,
+                displayMedium: _style,
+                displaySmall: _style,
+                headlineLarge: _style,
+                headlineMedium: _style,
+                headlineSmall: _style,
+                titleLarge: _style,
+                titleMedium: _style,
+                titleSmall: _style,
+                bodyLarge: _style,
+                bodyMedium: _style,
+                bodySmall: _style,
+                labelLarge: _style,
+                labelMedium: _style,
+                labelSmall: _style,
+              ),
+              fontFamily: 'Aeronik',
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: state.primaryColor,
+                brightness:
+                    state is DarkMode ? Brightness.dark : Brightness.light,
+              ),
+            ),
+            // initialRoute: AppRoutes.home,
+            // getPages: AppRoutes.routes,
+            home: HomeScreen(),
+          );
+        },
       ),
     );
   }
