@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "457081428821",
+    "project_id": "dsx-app",
+    "storage_bucket": "dsx-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:457081428821:android:6fcbe9b9c29a9014c5addc",
+        "android_client_info": {
+          "package_name": "com.deversol.dsx_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArcvyHZutiUNbYIgT-AgSET839k6aLvGo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:457081428821:android:0b57e8ed63613bcbc5addc",
+        "android_client_info": {
+          "package_name": "com.example.dsx_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArcvyHZutiUNbYIgT-AgSET839k6aLvGo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
