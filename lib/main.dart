@@ -43,6 +43,7 @@ class _MyAppState extends State<MyApp> {
             themeMode: state is DarkMode ? ThemeMode.dark : ThemeMode.light,
 
             theme: ThemeData(
+              appBarTheme: AppBarTheme(backgroundColor: state.bgColor,elevation: 0, scrolledUnderElevation: 0),
               scaffoldBackgroundColor: state.bgColor,
               textTheme: TextTheme(
                 displayLarge: _style,
