@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 class PrimaryButton extends CustomTheme {
   final String title;
   final VoidCallback? onTap;
-  const PrimaryButton({super.key, required this.title,  this.onTap});
+  final Size? size;
+  const PrimaryButton({super.key, required this.title,  this.onTap, this.size});
 
   @override
   Widget buildTheme(BuildContext context, ThemeState theme) {
     return ElevatedButton(
       style: ButtonStyle(
+      fixedSize: WidgetStatePropertyAll(size),
         backgroundColor: WidgetStatePropertyAll(onTap!=null?  theme.primaryColor: Colors.grey),
         foregroundColor: WidgetStatePropertyAll(theme.whiteColor),
 

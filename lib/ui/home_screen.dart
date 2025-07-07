@@ -6,6 +6,7 @@ import 'package:dsx_app/bloc/theme/theme_event.dart';
 import 'package:dsx_app/bloc/theme/theme_state.dart';
 import 'package:dsx_app/components/buttons/primary_button.dart';
 import 'package:dsx_app/components/buttons/secondary_button.dart';
+import 'package:dsx_app/components/drawer/custom_drawer.dart';
 import 'package:dsx_app/ui/game/lottery_game.dart';
 import 'package:dsx_app/utils/extensions.dart';
 import 'package:flutter/material.dart';
@@ -19,19 +20,8 @@ class HomeScreen extends StatelessWidget {
     final diceBloc = context.read<ShuffleBloc>();
     final theme = context.theme;
     return Scaffold(
-      appBar: AppBar(title: Text("DSX App"),leading: IconButton (onPressed: () {  },
-      
-      icon: Icon(Icons.menu)),),
-      // drawer: Drawer(
-      //   backgroundColor: theme.bgColor,
-      //   child: ListView(children: [
-
-      //   DrawerHeader(child: Text(
-      //     "This is Drawer header",
-      //   )),
-      //   Text("HEllo"), 
-
-      // ],),),
+      appBar: AppBar(title: Text("DSX App"),),
+      drawer:CustomDrawer(),
       body: BlocBuilder<ShuffleBloc, ShuffleState>(
         builder: (context, state) {
           return Center(
