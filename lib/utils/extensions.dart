@@ -1,13 +1,13 @@
 
 
-import 'package:dsx_app/bloc/theme/theme_bloc.dart';
-import 'package:dsx_app/bloc/theme/theme_state.dart';
+import 'package:dsx_app/controller/theme/theme_controller.dart';
+import 'package:dsx_app/controller/theme/theme_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 extension ThemeStateExtension on BuildContext{
-  ThemeState get theme => read<ThemeBloc>().state;
+  ThemeState get customTheme => Get.find<ThemeController>().state;
 }
 extension ThemeEventExtension on BuildContext{
-  ThemeBloc get themeController => read<ThemeBloc>();
+  ThemeController get themeController => Get.find<ThemeController>();
 }

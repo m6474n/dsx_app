@@ -1,19 +1,21 @@
-import 'package:dsx_app/bloc/shuffle/shuffle_bloc.dart';
-import 'package:dsx_app/bloc/theme/theme_bloc.dart';
-import 'package:dsx_app/bloc/theme/theme_state.dart';
+import 'package:dsx_app/controller/shuffle/shuffle_controller.dart';
+import 'package:dsx_app/controller/theme/theme_controller.dart';
 import 'package:dsx_app/firebase_options.dart';
 import 'package:dsx_app/ui/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Initialize GetX controllers
+  Get.put(ThemeController());
+  Get.put(ShuffleController());
+
   runApp(const MyApp());
 }
-
-// var colorManager = Get.put(ColorManager());
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -25,54 +27,53 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => ThemeBloc()),
-        BlocProvider(create: (_) => ShuffleBloc()),
-      ],
+    return GetBuilder<ThemeController>(
+      builder: (themeController) {
+        final state = themeController.state;
+        TextStyle style = TextStyle(color: state.textColor);
 
-      child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, state) {
-          TextStyle _style = TextStyle(color: state.textColor);
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Deversol Official App',
+          themeMode:
+              themeController.isDarkMode ? ThemeMode.dark : ThemeMode.light,
 
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Deversol Official App',
-            themeMode: state is DarkMode ? ThemeMode.dark : ThemeMode.light,
-
-            theme: ThemeData(
-              appBarTheme: AppBarTheme(backgroundColor: state.bgColor,elevation: 0, scrolledUnderElevation: 0),
-              scaffoldBackgroundColor: state.bgColor,
-              textTheme: TextTheme(
-                displayLarge: _style,
-                displayMedium: _style,
-                displaySmall: _style,
-                headlineLarge: _style,
-                headlineMedium: _style,
-                headlineSmall: _style,
-                titleLarge: _style,
-                titleMedium: _style,
-                titleSmall: _style,
-                bodyLarge: _style,
-                bodyMedium: _style,
-                bodySmall: _style,
-                labelLarge: _style,
-                labelMedium: _style,
-                labelSmall: _style,
-              ),
-              fontFamily: 'Aeronik',
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: state.primaryColor,
-                brightness:
-                    state is DarkMode ? Brightness.dark : Brightness.light,
-              ),
+          theme: ThemeData(
+            appBarTheme: AppBarTheme(
+              backgroundColor: state.bgColor,
+              elevation: 0,
+              scrolledUnderElevation: 0,
             ),
-            // initialRoute: AppRoutes.home,
-            // getPages: AppRoutes.routes,
-            home: HomeScreen(),
-          );
-        },
-      ),
+            scaffoldBackgroundColor: state.bgColor,
+            textTheme: TextTheme(
+              displayLarge: style,
+              displayMedium: style,
+              displaySmall: style,
+              headlineLarge: style,
+              headlineMedium: style,
+              headlineSmall: style,
+              titleLarge: style,
+              titleMedium: style,
+              titleSmall: style,
+              bodyLarge: style,
+              bodyMedium: style,
+              bodySmall: style,
+              labelLarge: style,
+              labelMedium: style,
+              labelSmall: style,
+            ),
+            fontFamily: 'Aeronik',
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: state.primaryColor,
+              brightness:
+                  themeController.isDarkMode
+                      ? Brightness.dark
+                      : Brightness.light,
+            ),
+          ),
+          home: const HomeScreen(),
+        );
+      },
     );
   }
 }

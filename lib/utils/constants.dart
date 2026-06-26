@@ -1,10 +1,4 @@
-
-
-
 // ignore_for_file: deprecated_member_use
-
-import 'package:dsx_app/main.dart';
-import 'package:flutter/material.dart';
 
 // style
 //  TextStyle defaultHeadingStyle =TextStyle(color: colorManager.textColor, fontSize: 42, fontWeight: FontWeight.w900);
